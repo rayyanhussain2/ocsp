@@ -1,4 +1,3 @@
-
 def plotter(plt, data,total):
     names = [item['Name'] for item in data]
     percentages = [item['Seats']/total * 100 for item in data]
