@@ -1,0 +1,31 @@
+Find out how much power each state has in the Indian general elections according to the
+Shapley-Shubik power index.
+
+
+Shapley Shubik: Provides the key player in terms of indices
+Banzhaff: gives different combinations of coalition and tells whether its a winning coaltion, blocking coalition or both
+
+Where this can be applied:
+Lok sabha (and the respective constituencies)
+state elections - (respective constituencies)
+
+What can be the input:
+For a given rajya sabha, and a particular state, we would show key constituencies 
+and coalitions that would make a party win and help a party block if not win
+
+For this we could show them the GUI showing different states and the key players as elevated 
+
+One problem to be solved is to come up with efficient Algorithm for different permutations and combinations of different order
+
+Concepts being used:
+Algorithms
+Analysis of algorithms
+Set theory
+
+Game theory
+Shapley shubik
+Banzhaff 
+
+
+Extra: Similarly find winning and blocking coalitions for each state for the indian general elections. W.r.t. districts or other
+larger divisions
