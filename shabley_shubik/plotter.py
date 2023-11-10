@@ -12,3 +12,4 @@ def plotter(plt, data,total):
     # Display the percentage values on top of the bars
     for i, percentage in enumerate(percentages):
         plt.text(i, percentage + 1, f'{percentage:.2f}%', ha='center')
+#done

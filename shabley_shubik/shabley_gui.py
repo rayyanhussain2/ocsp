@@ -4,7 +4,7 @@ import shabley_shubik as ss
 import matplotlib.pyplot as plt
 import plotter as pl
 
-
+#Done
 courses = []
 window = ttk.Window()
 window.title("DM Project")

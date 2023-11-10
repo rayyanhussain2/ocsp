@@ -1,4 +1,4 @@
-
+#done
 def priority(value, l, states):
     sum = 0
     for i in l:
