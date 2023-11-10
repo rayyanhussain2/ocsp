@@ -1,39 +1,100 @@
 #include <stdio.h>
-#include <math.h>
-#define STATE 36
+#include <stdlib.h>
+#include <pthread.h>
+#include <string.h>
 
-void addBinaryCompare(int* pArray, int n){
-    int binary[n];
-    for(int i = 0; i < n; i++){
-        binary[i] = 0;
-    }
-    
-    //Addition loops keeps adding on for 2^n 
-    for(unsigned long long i = 0; i < (unsigned long long) pow(2, n); i++){
-        //add one to the binary
-        int j = n;
-        while(j > 0){
-            //if the binary is 0
-            if(binary[j] == 0){
-                binary[j] = 1;
-                for(int k = 0; k < n; k++){
-                    printf("%d ", binary[k]);
+#define MAX 3
+#define VALUE 272
+#define NUM_THREADS 8
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+typedef struct {
+    char name[40];
+    int key;
+    int weight;
+} state;
+
+struct ThreadParams {
+    int size;
+};
+
+void *thread_function(void *arg);
+void priority(state array[]);
+void heapPermutation(int size, state *states);
+
+state states[MAX] = {
+    {"Andhra Pradesh", 0, 25},
+    {"Arunachal Pradesh", 0, 2},
+    {"Assam", 0, 14},
+    // {"Bihar", 0, 40},
+    // {"Chhattisgarh", 0, 11},
+    // {"Goa", 0, 2},
+    // {"Gujarat", 0, 26},
+    // {"Haryana", 0, 20},
+};
+
+pthread_t threads[NUM_THREADS];
+
+void priority(state array[]) {
+    int sum = 0;
+    for (int i = 0; i < MAX; i++) {
+        sum += array[i].weight;
+        if (sum > VALUE){
+            for (int j = 0; j < MAX; j++) {
+                if (strcmp(states[j].name, array[i].name) == 0) {
+                    states[j].key += 1;
                 }
-                printf("\n");
-                break;
-            }else{
-                //if its one
-                binary[j] = 0;
             }
-            j -= 1;
         }
     }
 }
 
-int main(){
-    int states[] = {25, 2, 14, 40, 11, 2, 26, 10, 4, 14, 28, 20, 29, 48, 2, 2, 1, 1, 21, 13, 25, 1, 39 , 17, 2, 80, 5, 42, 1, 1, 2, 5, 1, 1, 7, 1};
-    
-    addBinaryCompare(states, STATE);
+void heapPermutation(int size, state *states) {
+    if (size == 1) {
+        pthread_mutex_lock(&mutex);
+        priority(states);
+        pthread_mutex_unlock(&mutex);
+        return;
+    }
+
+ pthread_t local_threads[NUM_THREADS];
+    struct ThreadParams *threadParamsArray = malloc(sizeof(struct ThreadParams) * size);
+
+    if (threadParamsArray == NULL) {
+        // Handle memory allocation failure
+        return;
+    }
+
+    for (int i = 0; i < size; i++) {
+        threadParamsArray[i].size = size - 1;
+
+        state tmp = states[i];
+        states[i] = states[size - 1];
+        states[size - 1] = tmp;
+
+        pthread_create(&local_threads[i], NULL, thread_function, (void *)&threadParamsArray[i]);
+    }
+
+    for (int j = 0; j < size; j++) {
+        pthread_join(local_threads[j], NULL);
+    }
+
+    free(threadParamsArray);
+}
+
+void *thread_function(void *arg) {
+    struct ThreadParams *params = (struct ThreadParams *)arg;
+    heapPermutation(params->size, states);
+    return NULL;
+}
+
+int main() {
+    heapPermutation(MAX, states);
+    for (int i = 0; i < MAX; i++) {
+        printf("%s %d\n", states[i].name, states[i].key);
+    }
+
+    // No need to free(states) or free(threads) since they were not dynamically allocated
 
     return 0;
 }
