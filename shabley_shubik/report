@@ -1,0 +1,6 @@
+Used:
+Heaps algorithm + additional computation:
+O(n * n!)
+
+Did not use
+multithreading
