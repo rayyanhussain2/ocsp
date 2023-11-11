@@ -50,8 +50,7 @@ void heapAlgorithm(state* pStates, int size, unsigned long long* pSimulations){
     //Call for the check pivot function
     (pStates + returnPivotIndex(pStates, size, MAJORITY)) -> key += 1;
     *pSimulations += 1;
-
-
+    
     int i = 0;
     while(i < size){
         if(count[i] < i){
@@ -63,6 +62,18 @@ void heapAlgorithm(state* pStates, int size, unsigned long long* pSimulations){
 
             (pStates + returnPivotIndex(pStates, size, MAJORITY)) -> key += 1;
             *pSimulations += 1;
+
+            //every size simulation, check for confidence interval
+            if(*pSimulations % STATES == 0){
+                //Calculating the mean
+                double mean = 0;
+                for(int j = 0; j < STATES; j++){
+                    mean += (pStates + j) -> key; 
+                }
+                mean /= STATES;
+                printf("Mean: %f\n", mean);
+
+            }
 
             count[i] += 1;
             i = 0;
