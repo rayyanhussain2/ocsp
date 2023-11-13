@@ -1,0 +1,43 @@
+Simulation Results: 
+
+Tamil Nadu: 147
+Arunachal Pradesh: 148
+Manipur: 148
+Dadra and Nagar Haveli and Daman and Diu”: 148
+Uttar Pradesh: 147
+Gujarat: 148
+Goa: 148
+Madhya Pradesh: 148
+Nagaland: 148
+Himachal Pradesh: 148
+Rajasthan: 146
+Andhra Pradesh: 148
+Sikkim: 148
+Ladakh: 148
+Chhattisgarh: 148
+Odisha: 148
+Lakshadweep: 37
+Andaman and Nicobar Islands: 148
+Puducherry: 148
+Chandigarh: 148
+Karnataka: 147
+West Bengal: 147
+Jharkhand: 148
+Assam: 148
+Meghalaya: 148
+Mizoram: 148
+Tripura: 148
+Haryana: 148
+Jammu and Kashmir: 147
+Telangana: 148
+Uttarakhand: 148
+Bihar: 148
+Punjab: 148
+Delhi: 148
+Maharashtra: 180
+Kerala: 148
+
+Total simulations: 5112
+Runtime: 4536 ms
+Shuffles: 9
+6.242989 percent Margin of Error at the 95 percent confidence level

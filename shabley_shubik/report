@@ -1,6 +1,8 @@
 Used:
-Heaps algorithm + additional computation:
-O(n * n!)
-
-Did not use
+Permutations
+Heaps algorithm
+Fisher-Yates algorithm
+NUmber theory - random number generator
+Shabley shubik
+algorithm
 multithreading
