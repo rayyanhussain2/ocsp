@@ -109,11 +109,13 @@ def add_state():
     states.append(d)
 
 def call_function(n):
-    global indian_states,permutations_value,indian_listbox
+    global indian_states,permutations_value,indian_listbox,graph_button
     permutations_value = n.get();n.set(0)
     indian_states = shabley.main(permutations_value)
     # for item in indian_states:
     #     indian_listbox.insert(tk.END, item["Name"])
+    graph_button = ttk.Button(master=options_frame, text="Graph", command=graph)
+    graph_button.place(x = 110, y = 150, width = 186,height = 56)
 def modify_details():
     global actual_name,actual_value,states,new_state_name,new_seats
     name = new_state_name.get();new_state_name.set("")
@@ -154,6 +156,7 @@ def on_select(event):
             entry2.insert(0,actual_value)
 
 def graph():
+    graph_button.place_forget()
     shabley.plotter(indian_states,permutations_value)
 def main_window():
     global state_name,seats,seats
@@ -175,7 +178,7 @@ def main_window():
     input_frame2 = ttk.Frame(master=main_window_frame)
     input_frame2.place(x = 200, y = 250, width = 750,height = 100)
 
-    seats_label = ttk.Label(master=input_frame2, text="Enter name:", font="Calibri 15 bold")
+    seats_label = ttk.Label(master=input_frame2, text="Enter weight:", font="Calibri 15 bold")
     seats_label.place(x = 0, y = 0)
 
     seats = tk.IntVar(value=None)
@@ -247,7 +250,7 @@ def list_window():
     # Frame for buttons
 
 def indian_context():
-    global indian_listbox,graph_button
+    global indian_listbox,graph_button,options_frame
     # Title label
     title_label = ttk.Label(
         master=indian_context_window_frame,
@@ -264,14 +267,14 @@ def indian_context():
 
     # Listbox
     indian_listbox = tk.Listbox(input_frame, selectmode=tk.SINGLE,font="Helvetica 20")
-    indian_listbox.place(x=30,y=20,height=200,width=400)
+    indian_listbox.place(x=10,y=20,height=200,width=450)
 
     scrollbar = tk.Scrollbar(input_frame, orient="vertical", command=indian_listbox.yview)
     scrollbar.place(x=430, y=20, height=200)
     indian_listbox.config(yscrollcommand=scrollbar.set)
 
     for item in indian_states_hardcode:
-        indian_listbox.insert(tk.END, f"{item[0]}  {item[1]} ")
+        indian_listbox.insert(tk.END, f"{item[0]}  {item[1]}")
 
     options_frame = ttk.Frame(master=indian_context_window_frame, style="TFrame")
     options_frame.place(x = 150, y = 400, width = 513,height = 250)
@@ -285,8 +288,6 @@ def indian_context():
     permutation_button = ttk.Button(master=options_frame, text="Generate", command=lambda: call_function(permutations))
     permutation_button.place(x = 220, y = 30, width = 186,height = 50)
 
-    graph_button = ttk.Button(master=options_frame, text="Graph",style = "Deactivate", command=graph)
-    graph_button.place(x = 110, y = 150, width = 186,height = 56)
   
 
 
