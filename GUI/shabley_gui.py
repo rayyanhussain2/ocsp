@@ -3,9 +3,10 @@ import ttkbootstrap as ttk
 import shabley_shubik as ss
 import matplotlib.pyplot as plt
 import plotter as pl
-
+import shabley  as shabley
+import main_plotter as mp
 #Done
-courses = []
+
 window = ttk.Window()
 window.title("DM Project")
 window.geometry('750x750')
@@ -13,25 +14,63 @@ window.resizable(False,False)
 window["background"] = "#04364A"
 frame_no = 1
 
-states = []
+states = [];indian_states = []
 state_name = tk.StringVar()
 seats = tk.IntVar(value=None)
 new_state_name = tk.StringVar()
 new_seats = tk.IntVar(value=None)
 actual_name = "";actual_value = 0
+permutations_value = 0
 
 list_window_frame = ttk.Frame(master=window, style="TFrame")
 list_window_frame.place(x = 0, y = 0, width = 750,height = 700)
 list_window_frame.lower()
 
-about_window_frame = ttk.Frame(master=window, style="TFrame")
-about_window_frame.place(x = 0, y = 0, width = 750,height = 700)
-about_window_frame.lower()
+indian_context_window_frame = ttk.Frame(master=window, style="TFrame")
+indian_context_window_frame.place(x = 0, y = 0, width = 750,height = 700)
+indian_context_window_frame.lower()
 
 main_window_frame = ttk.Frame(master=window, style="TFrame")
 main_window_frame.place(x = 0, y = 0, width = 750,height = 700)
 
-
+indian_states_hardcode = [
+        ["Andhra Pradesh", 25],
+        ["Arunachal Pradesh", 2],
+        ["Assam", 14],
+        ["Bihar", 40],
+        ["Chhattisgarh", 11],
+        ["Goa", 2],
+        ["Gujarat", 26],
+        ["Haryana", 10],
+        ["Himachal Pradesh", 4],
+        ["Jharkhand", 14],
+        ["Karnataka", 28],
+        ["Kerala", 20],
+        ["Madhya Pradesh", 29],
+        ["Maharashtra", 48],
+        ["Manipur", 2],
+        ["Meghalaya", 2],
+        ["Mizoram", 1],
+        ["Nagaland", 1],
+        ["Odisha", 21],
+        ["Punjab", 13],
+        ["Rajasthan", 25],
+        ["Sikkim", 1],
+        ["Tamil Nadu", 39],
+        ["Telangana", 17],
+        ["Tripura", 2],
+        ["Uttar Pradesh", 80],
+        ["Uttarakhand", 5],
+        ["West Bengal", 42],
+        ["Andaman and Nicobar Islands", 1],
+        ["Chandigarh", 1],
+        ["Dadra and Nagar Haveli and Daman and Diu", 2],
+        ["Jammu and Kashmir", 5],
+        ["Ladakh", 1],
+        ["Lakshadweep", 1],
+        ["Delhi", 7],
+        ["Puducherry", 1],
+    ]
 style = ttk.Style()
 style.configure("TFrame", background="#04364A")
 style.configure("TButton", background="#07597a")
@@ -43,10 +82,11 @@ def toggle_visibility(new_frame,no):
     global frame_no
     main_window_frame.place_forget()
     list_window_frame.place_forget()
-    about_window_frame.place_forget()
+    indian_context_window_frame.place_forget()
 
     if no == 2:
         list_window()
+
 
     new_frame.place(x = 0, y = 0, width = 750,height = 700)
     frame_no = no
@@ -67,6 +107,12 @@ def add_state():
     total += d["Seats"]
     states.append(d)
 
+def call_function(n):
+    global indian_states,permutations_value,indian_listbox
+    permutations_value = n.get();n.set(0)
+    indian_states = shabley.main(permutations_value)
+    # for item in indian_states:
+    #     indian_listbox.insert(tk.END, item["Name"])
 def modify_details():
     global actual_name,actual_value,states,new_state_name,new_seats
     name = new_state_name.get();new_state_name.set("")
@@ -106,6 +152,8 @@ def on_select(event):
             entry2.delete(0, tk.END) 
             entry2.insert(0,actual_value)
 
+def graph():
+    shabley.plotter(indian_states,permutations_value)
 def main_window():
     global state_name,seats,seats
     title_label = ttk.Label(master=main_window_frame, text="Shabley Shubik", font="Calibri 30 bold",foreground="white")
@@ -197,19 +245,63 @@ def list_window():
 
     # Frame for buttons
 
+def indian_context():
+    global indian_listbox
+    # Title label
+    title_label = ttk.Label(
+        master=indian_context_window_frame,
+        text="Indian Context",
+        font="Calibri 30 bold",
+        foreground="white"
+    )
+    title_label.place(x=270, y=33, width=300, height=50)
+    title_label["background"] = "#04364A"
+
+    # Input frame
+    input_frame = ttk.Frame(master=indian_context_window_frame, style="TFrame")
+    input_frame.place(x=150, y=100, width=450, height=500)
+
+    # Listbox
+    indian_listbox = tk.Listbox(input_frame, selectmode=tk.SINGLE,font="Helvetica 20")
+    indian_listbox.place(x=0,y=0,height=200,width=400)
+
+    scrollbar = tk.Scrollbar(input_frame, orient="vertical", command=indian_listbox.yview)
+    scrollbar.place(x=400, y=0, height=200)
+    indian_listbox.config(yscrollcommand=scrollbar.set)
+
+    for item in indian_states_hardcode:
+        indian_listbox.insert(tk.END, f"{item[0]}  {item[1]} ")
+
+    options_frame = ttk.Frame(master=indian_context_window_frame, style="TFrame")
+    options_frame.place(x = 150, y = 400, width = 513,height = 250)
+
+    permutations_label = ttk.Label(master=options_frame, text="Enter permutations:", font="Calibri 15 bold")
+    permutations_label.place(x = 0, y = 0)
+    permutations = tk.IntVar(value=None)
+    entry3 = ttk.Entry(master=options_frame, textvariable=permutations)
+    entry3.place(x = 0, y = 30, width = 200,height = 50)
+
+    permutation_button = ttk.Button(master=options_frame, text="Generate", command=lambda: call_function(permutations))
+    permutation_button.place(x = 220, y = 30, width = 186,height = 50)
+
+    modify_button = ttk.Button(master=options_frame, text="Graph", command=graph)
+    modify_button.place(x = 110, y = 150, width = 186,height = 56)
+
+
 
 input_frame4 = ttk.Frame(master=window)
 input_frame4.place(x = 0, y = 700, width = 750,height = 50)
 
 first_button = ttk.Button(master=input_frame4, text="Main window", command = lambda: toggle_visibility(main_window_frame,1))
-first_button.place(x = 0, y = 0, width = 750/2,height = 50)
+first_button.place(x = 0, y = 0, width = 750/3,height = 50)
 
-# second_button = ttk.Button(master=input_frame4, text="Listing States", command = lambda: toggle_visibility(list_window_frame,2))
-# second_button.place(x = 750/3, y = 0, width = 750/3,height = 50)
+second_button = ttk.Button(master=input_frame4, text="List window", command = lambda: toggle_visibility(list_window_frame,2))
+second_button.place(x = 750/3, y = 0, width = 750/3,height = 50)
 
-third_button = ttk.Button(master=input_frame4, text="List window", command = lambda: toggle_visibility(list_window_frame,2))
-third_button.place(x = 750/2, y = 0, width = 750/2,height = 50)
-        
+third_button = ttk.Button(master=input_frame4, text="Indian Context", command = lambda: toggle_visibility(indian_context_window_frame,3))
+third_button.place(x = 1500/3, y = 0, width = 750/3,height = 50)
+
+indian_context()    
 list_window()
 main_window()
 
