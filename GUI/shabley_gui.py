@@ -73,9 +73,10 @@ indian_states_hardcode = [
     ]
 style = ttk.Style()
 style.configure("TFrame", background="#04364A")
-style.configure("TButton", background="#07597a")
+style.configure("TButton", background="#07597a",border = 20,relief="ridge")
 style.configure("TLabel",background = "#04364A",foreground="white")
-style.configure("TButton.FinalButton", background="#37ACA4")
+
+
 total = 0
 
 def toggle_visibility(new_frame,no):
@@ -246,27 +247,27 @@ def list_window():
     # Frame for buttons
 
 def indian_context():
-    global indian_listbox
+    global indian_listbox,graph_button
     # Title label
     title_label = ttk.Label(
         master=indian_context_window_frame,
-        text="Indian Context",
+        text="Shabley Shubik - Lok Sabha",
         font="Calibri 30 bold",
         foreground="white"
     )
-    title_label.place(x=270, y=33, width=300, height=50)
+    title_label.place(x=160, y=33, height=50)
     title_label["background"] = "#04364A"
 
     # Input frame
     input_frame = ttk.Frame(master=indian_context_window_frame, style="TFrame")
-    input_frame.place(x=150, y=100, width=450, height=500)
+    input_frame.place(x=120, y=100, width=450, height=500)
 
     # Listbox
     indian_listbox = tk.Listbox(input_frame, selectmode=tk.SINGLE,font="Helvetica 20")
-    indian_listbox.place(x=0,y=0,height=200,width=400)
+    indian_listbox.place(x=30,y=20,height=200,width=400)
 
     scrollbar = tk.Scrollbar(input_frame, orient="vertical", command=indian_listbox.yview)
-    scrollbar.place(x=400, y=0, height=200)
+    scrollbar.place(x=430, y=20, height=200)
     indian_listbox.config(yscrollcommand=scrollbar.set)
 
     for item in indian_states_hardcode:
@@ -284,8 +285,9 @@ def indian_context():
     permutation_button = ttk.Button(master=options_frame, text="Generate", command=lambda: call_function(permutations))
     permutation_button.place(x = 220, y = 30, width = 186,height = 50)
 
-    modify_button = ttk.Button(master=options_frame, text="Graph", command=graph)
-    modify_button.place(x = 110, y = 150, width = 186,height = 56)
+    graph_button = ttk.Button(master=options_frame, text="Graph",style = "Deactivate", command=graph)
+    graph_button.place(x = 110, y = 150, width = 186,height = 56)
+  
 
 
 
@@ -298,7 +300,7 @@ first_button.place(x = 0, y = 0, width = 750/3,height = 50)
 second_button = ttk.Button(master=input_frame4, text="List window", command = lambda: toggle_visibility(list_window_frame,2))
 second_button.place(x = 750/3, y = 0, width = 750/3,height = 50)
 
-third_button = ttk.Button(master=input_frame4, text="Indian Context", command = lambda: toggle_visibility(indian_context_window_frame,3))
+third_button = ttk.Button(master=input_frame4, text="Lok Sabha", command = lambda: toggle_visibility(indian_context_window_frame,3))
 third_button.place(x = 1500/3, y = 0, width = 750/3,height = 50)
 
 indian_context()    
