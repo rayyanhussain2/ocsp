@@ -96,11 +96,15 @@ def plotter(states,permutations):
     plt.pie(y_axis, labels=x_axis)
 
     plt.subplot(1,2,2)
-    plt.bar(x_axis[:5], y_axis[:5], color='skyblue')
+    bars = plt.bar(x_axis[:5], y_axis[:5], color='skyblue')
     plt.xlabel('State names')
     plt.ylabel('Pivotal player')
     plt.title('Shabley Shubik Index')
     plt.ylim(0, 100)
+
+    for bar in bars:
+        yval = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2, yval + 2, round(yval, 2), ha='center', va='bottom')
 
     plt.tight_layout()
     plt.show()
