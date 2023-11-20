@@ -49,7 +49,7 @@ def main():
     size = 36
     simulations = 0
     majority = 272
-    permutations = 10000
+    permutations = 100000
 
     print("Running simulation...")
 
@@ -85,9 +85,6 @@ def main():
         x_axis = [i.name for i in sorted_data]
         y_axis = [i.key for i in sorted_data]
 
-    for i in range(5):
-        print(x_axis[i], y_axis[i])
-
         value = 0
     for val in range(19,len(y_axis)):
         value += y_axis[val]
@@ -100,15 +97,11 @@ def main():
     plt.pie(y_axis, labels=x_axis)
 
     plt.subplot(1,2,2)
-    bars = plt.bar(x_axis[:5], y_axis[:5], color='skyblue')
+    plt.bar(x_axis[:5], y_axis[:5], color='skyblue')
     plt.xlabel('State names')
     plt.ylabel('Pivotal player')
     plt.title('Shabley Shubik Index')
     plt.ylim(0, 100)
-
-    for bar in bars:
-        yval = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2, yval + 2, round(yval, 2), ha='center', va='bottom')
 
     plt.tight_layout()
     plt.show()

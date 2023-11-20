@@ -1,9 +1,9 @@
 import tkinter as tk
 import ttkbootstrap as ttk
-import shabley_shubik as ss
+import old_shabley_shubik as ss
 import matplotlib.pyplot as plt
 import plotter as pl
-import shabley  as shabley
+import indian_shabley  as indian_shabley
 import main_plotter as mp
 #Done
 
@@ -111,7 +111,7 @@ def add_state():
 def call_function(n):
     global indian_states,permutations_value,indian_listbox,graph_button
     permutations_value = n.get();n.set(0)
-    indian_states = shabley.main(permutations_value)
+    indian_states = indian_shabley.main(permutations_value)
     # for item in indian_states:
     #     indian_listbox.insert(tk.END, item["Name"])
     graph_button = ttk.Button(master=options_frame, text="Graph", command=graph)
@@ -157,7 +157,7 @@ def on_select(event):
 
 def graph():
     graph_button.place_forget()
-    shabley.plotter(indian_states,permutations_value)
+    indian_shabley.plotter(indian_states,permutations_value)
 def main_window():
     global state_name,seats,seats
     title_label = ttk.Label(master=main_window_frame, text="Shabley Shubik", font="Calibri 30 bold",foreground="white")
